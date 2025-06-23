@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kaç Gündür Birlikteyiz?</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #ffe0ec, #fff0f6);
+      color: #3d3d3d;
+      text-align: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.6em;
+      color: #b11244;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .photo {
+      position: relative; /* kalplerin burada konumlanması için */
+      max-width: 350px;
+      flex-shrink: 0;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+    }
+
+    .center-content {
+      max-width: 600px; /* genişliği hafif artırdım */
+      flex: 1 1 600px; /* esnek büyüme/ küçülme ve başlangıç genişliği */
+    }
+
+    #daysCount {
+      font-size: 4em;
+      color: #ff3366;
+      font-weight: bold;
+      margin-top: 10px;
+      word-wrap: break-word;
+    }
+
+    #label {
+      font-size: 1.6em;
+      margin-top: -10px;
+      color: #7b2c53;
+    }
+
+    .message {
+      font-size: 1.4em;
+      margin-top: 30px;
+      color: #5a2a47;
+      max-width: 900px; /* biraz daha geniş */
+      margin-left: auto;
+      margin-right: auto;
+      background: #fff5f9;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      word-wrap: break-word;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float 2s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
+      opacity: 1;
+    }
+
+    @keyframes float {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(1.5);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .center-content {
+        max-width: 500px;
+        flex-basis: 500px;
+      }
+      .message {
+        max-width: 700px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .photo {
+        max-width: 70%;
+        margin: 0 auto;
+      }
+
+      .center-content {
+        max-width: 90%;
+        flex-basis: auto;
+      }
+
+      h1 {
+        font-size: 2.2em;
+      }
+
+      #daysCount {
+        font-size: 3em;
+      }
+
+      #label {
+        font-size: 1.3em;
+      }
+
+      .message {
+        max-width: 100%;
+        padding: 15px;
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Askımlaaa tam tamınaaa 💖</h1>
+
+  <div class="container">
+    <div class="photo" id="photoLeft">
+      <img src="senveben.jpg" alt="Fotoğraf 1">
+    </div>
+
+    <div class="center-content">
+      <div id="daysCount"></div>
+      <div id="label">gündür birlikteyiz</div>
+      <div class="message">
+        Seninle geçirdiğim her gün, ilk günkü heyecanla dolu aşkım...
+        <br>Seni cok ama coook seviyorum her şeyimm 💖💖
+      </div>
+    </div>
+
+    <div class="photo" id="photoRight">
+      <img src="senveben2.jpg" alt="Fotoğraf 2">
+    </div>   
+  </div>
+
+  <script>
+    const startDate = new Date("2024-05-13");
+    const today = new Date();
+    const diffTime = today - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("daysCount").textContent = diffDays;
+
+    // Genel body'ye kalp oluştur
+    function createHeart(parent) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "💖";
+      // Parent genişlik/yükseklik sınırlarında rastgele konum
+      const parentRect = parent.getBoundingClientRect();
+      const x = Math.random() * (parentRect.width - 24); // kalp 20px + biraz margin
+      const y = Math.random() * (parentRect.height - 24);
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+
+      parent.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }
+
+    // Sayfa açılışında kalpleri patlat
+    function burstHearts() {
+      const body = document.body;
+      const photoLeft = document.getElementById("photoLeft");
+      const photoRight = document.getElementById("photoRight");
+
+      for(let i=0; i < 20; i++) {
+        setTimeout(() => createHeart(body), i * 100); // sayfa genelinde
+      }
+      for(let i=0; i < 10; i++) {
+        setTimeout(() => createHeart(photoLeft), i * 150); 
+      }
+      for(let i=0; i < 10; i++) {
+        setTimeout(() => createHeart(photoRight), i * 150); 
+      }
+    }
+
+    window.onload = burstHearts;
+  </script>
+</body>
+</html>
